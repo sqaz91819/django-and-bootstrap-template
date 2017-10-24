@@ -9,9 +9,9 @@ $(function() {
             itouch: 2647
         }, {
             period: '2010 Q2',
-            iphone: 2778,
-            ipad: 2294,
-            itouch: 2441
+            iphone: 0,
+            ipad: 0,
+            itouch: 0
         }, {
             period: '2010 Q3',
             iphone: 4912,
@@ -63,16 +63,16 @@ $(function() {
 
     Morris.Donut({
         element: 'morris-donut-chart',
-        data: [{
-            label: "Download Sales",
-            value: 12
-        }, {
-            label: "In-Store Sales",
-            value: 30
-        }, {
-            label: "Mail-Order Sales",
-            value: 20
-        }],
+        data: [
+            {label: "Positive Articles", value: pos_num},
+            {label: "Neutral Articles", value: neutral_num},
+            {label: "Negative Articles", value: neg_num}
+        ],
+        colors: [
+         "green",
+         "orange",
+         "red"
+        ],
         resize: true
     });
 
