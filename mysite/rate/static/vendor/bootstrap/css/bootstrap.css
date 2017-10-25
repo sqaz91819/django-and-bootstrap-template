@@ -1086,7 +1086,7 @@ body {
   font-size: 14px;
   line-height: 1.42857143;
   color: #333;
-  background-color: #fff;
+  background-color: #333;
 }
 input,
 button,
@@ -1097,7 +1097,7 @@ textarea {
   line-height: inherit;
 }
 a {
-  color: #337ab7;
+  color: #999;
   text-decoration: none;
 }
 a:hover,
@@ -4493,8 +4493,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-default {
-  background-color: #f8f8f8;
-  border-color: #e7e7e7;
+  background-color: #333;
+  border-color: #333;
 }
 .navbar-default .navbar-brand {
   color: #777;
@@ -4516,7 +4516,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   background-color: transparent;
 }
 .navbar-default .navbar-nav > .active > a,
-.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:hoer,
 .navbar-default .navbar-nav > .active > a:focus {
   color: #555;
   background-color: #e7e7e7;
