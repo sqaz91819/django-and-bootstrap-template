@@ -128,8 +128,10 @@ def article_info(url: str) -> Union[Dict, None]:
         "label": label,
         "title": title,
         "url": url,
-        "date_added": date,
-        "content": __line_con(content)}
+        "$date": date,
+        "content": __line_con(content),
+        "modified": False
+    }
     return dic
 # end article_info()
 
