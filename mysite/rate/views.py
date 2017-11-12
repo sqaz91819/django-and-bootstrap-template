@@ -5,7 +5,10 @@ from django.urls import reverse
 from django.views import generic
 from .models import Query
 from .crawler_api import mongodb
+from .model import KerasModel
+
 # Create your views here.
+model = KerasModel("model")
 
 
 class HomeView(generic.TemplateView):
@@ -23,8 +26,8 @@ class IndexView(generic.ListView):
         if form.is_valid():
             with mongodb.Mongodb(hash_check=False) as mgd:
                 temp = mgd.search_title('articles', form.query['search'])
-                # nlp = mgd.search_encode('jie_ba_Articles', form.query['search'])
-                # nlp = [a['encode'] for a in nlp]
+                nlp = mgd.search_encode('jie_ba_Articles', form.query['search'])
+                nlp = [a['encode'] for a in nlp]
                 pos_articles = [[t['title'], t['url']] for t in temp if t['score'] > 3]
                 pos = [t['score'] for t in temp if t['score'] > 3]
                 neg = [t['score'] for t in temp if t['score'] == 3]
@@ -39,9 +42,7 @@ class IndexView(generic.ListView):
             try:
                 score = (sum(temp) / len(temp)) * 21
                 articles = len(temp)
-                # nlp = sequence.pad_sequences(nlp, maxlen=100)
-                # with settings.GRAPH.as_default():
-                #    fasttext_score = int(sum(self.fasttext.predict(nlp, batch_size=40)) / len(temp) * 100)
+                fasttext_score = int(sum(model.predict(nlp)) / len(temp) * 100)
             except ZeroDivisionError:
                 return render(request, self.template_name, {
                     'form': form,
@@ -59,7 +60,7 @@ class IndexView(generic.ListView):
                 'neg': len(neg),
                 'neutral': neutral,
                 'pos_articles': pos_articles,
-                # 'fast_text': fasttext_score,
+                'fast_text': fasttext_score,
             })
 
         return render(request, self.template_name, {

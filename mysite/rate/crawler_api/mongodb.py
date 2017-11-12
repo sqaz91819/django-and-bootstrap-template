@@ -1,4 +1,4 @@
-from time import time
+﻿from time import time
 from os import path
 from typing import List, DefaultDict
 from pymongo import MongoClient, collection
@@ -20,8 +20,7 @@ Articles = List[Article]
 
 class Mongodb:
     def __init__(self, hash_check=True):
-        self.server_path = read_path(path.join('D:\GitHub\MickeyRat\crawler_api',
-                                               'server_path.txt'))
+        self.server_path = read_path(path.join(path.dirname(__file__), 'server_path.txt'))
         self.client = MongoClient(self.server_path, 80)
         self.db = self.client.test
         if hash_check:
