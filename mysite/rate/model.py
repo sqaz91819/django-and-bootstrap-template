@@ -56,7 +56,7 @@ class KerasModel:
         model = self._model
         truncated_articles = []
         for article in articles:
-            truncated_articles.append(list(word for word in article if 20 < word < 41000))
+            truncated_articles.append(list(word - 20 for word in article if 20 < word < 41000))
         articles = sequence.pad_sequences(truncated_articles, maxlen=self._maxlen)
         with KerasModel.TF_GRAPH.as_default():
             result = model.predict(articles, batch_size=self._batch_size)
