@@ -24,6 +24,8 @@
     <!-- Custom Fonts -->
     <link href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
 
+    <link href="{% static 'scrolling-nav.css' %}" rel="stylesheet">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -369,21 +371,60 @@
         </nav>
 
         <!-- Page Content -->
+
         <div id="page-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">MickeyRat</h1>
-                        <p>MickeyRat是個收集PTT電影版文章統整成一個評分的系統,目的在於讓使用者快速得知有興趣的電影在PTT上的評價好壞<br>
-                            在左上輸入想找的電影名稱,可以看到正負文章數量及評分,以及一些文章在PTT的相關資訊
-                        </p>
+            <section id="welcome">
+                <div class="container text-center">
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <h1 class="page-header">MickeyRat</h1>
+                            <p class="lead" style="font-family: 'Microsoft JhengHei UI'" align="left">MickeyRat是分析PTT電影版文章的一個評分系統,目的在於讓使用者快速得知有興趣的電影在PTT上的評價好壞在左上輸入想找的電影名稱,可以看到正負文章數量及評分,以及一些文章在PTT的相關資訊</p>
+                        </div>
+                        <!-- /.col-lg-12 -->
                     </div>
-                    <!-- /.col-lg-12 -->
+                    <!-- /.row -->
                 </div>
-                <!-- /.row -->
-            </div>
+            </section>
+
+            <section id="about" class="bg-light">
+                <div class="container text-center">
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <h1 class="page-header">文章資訊</h1>
+                            <p class="lead" style="font-family: 'Microsoft JhengHei UI'">視覺化文章相關資訊，讓電影評分一目瞭然</p>
+                            <ul style="font-family: 'Microsoft JhengHei UI'">
+                                <li>正負文章統計</li>
+                                <li>電影總體評分</li>
+                                <li>推文趨勢分析</li>
+                                <li>活躍發文者評論</li>
+                            </ul>
+                        </div>
+                        <!-- /.col-lg-12 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </section>
+
+            <section id="model">
+                <div class="container text-center">
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <h1 class="page-header">深度學習模型</h1>
+                            <p class="lead" style="font-family: 'Microsoft JhengHei UI'">使用深度學習模型對文章進行訓練，當作文章原始評分的實驗數據</p>
+                            <ul style="font-family: 'Microsoft JhengHei UI'">
+                                <li>FastText</li>
+                                <li>LSTM(100)</li>
+                                <li>LSTM(1000)</li>
+                            </ul>
+                        </div>
+                        <!-- /.col-lg-12 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </section>
             <!-- /.container-fluid -->
         </div>
+
         <!-- /#page-wrapper -->
 
     </div>

@@ -1293,7 +1293,7 @@ p {
   margin-bottom: 20px;
   font-size: 16px;
   font-weight: 300;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 @media (min-width: 768px) {
   .lead {
@@ -1371,6 +1371,9 @@ a.text-danger:hover,
 a.text-danger:focus {
   color: #843534;
 }
+.bg-light{
+  background-color: #f8f9fa!important;
+}
 .bg-primary {
   color: #fff;
   background-color: #337ab7;
@@ -1411,6 +1414,7 @@ a.bg-danger:focus {
   padding-bottom: 9px;
   margin: 40px 0 20px;
   border-bottom: 1px solid #eee;
+  font-family: "Microsoft JhengHei UI";
 }
 ul,
 ol {
