@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
+from numpy import mean
 from .models import Query, ScoreMovie, Score
 from .crawler_api import mongodb
 from .model import KerasModel
@@ -42,7 +43,8 @@ class IndexView(generic.ListView):
             try:
                 score = (sum(temp) / len(temp)) * 21
                 articles = len(temp)
-                fasttext_score = int(sum(model.predict(nlp)) / len(temp) * 100)
+                predict_result = model.predict(nlp)
+                fasttext_score = mean(predict_result) * 100
             except ZeroDivisionError:
                 return render(request, self.template_name, {
                     'form': form,
@@ -84,7 +86,7 @@ class ModifyView(generic.ListView):
             score = form.score['score2']
             movie = form.score['movie2']
             with mongodb.Mongodb(hash_check=False) as mgd:
-                article: dict = mgd.search_dual('articles', 'title', movie, 'score', int(score))
+                article = mgd.search_dual('articles', 'title', movie, 'score', int(score))
             try:
                 article['content'] = article['content'].replace(' ', '\n')
                 article['id0'] = article['_id']

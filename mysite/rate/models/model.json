@@ -1,1 +1,0 @@
-{"maxlen": 1000, "batch_size": 40, "max_features": 20000, "embedding_size": 128, "kernel_size": 5, "filters": 64, "pool_size": 4, "lstm_output_size": 70, "conv_activation": "relu", "activation": "sigmoid"}

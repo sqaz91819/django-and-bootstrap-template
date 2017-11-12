@@ -17,7 +17,7 @@ class KerasModel:
     def __init__(self, model_name):
         dirname = path.join(path.dirname(__file__), 'models')
         if not KerasModel.MODEL or not KerasModel.TF_GRAPH:
-            with open(path.join(dirname, model_name+".json")) as file:
+            with open(path.join(dirname, model_name+"_configs.json")) as file:
                 configs = json.load(file)
             if path.isfile(path.join(dirname, model_name+".hdf5")):
                 KerasModel.MODEL = load_model(path.join(dirname, model_name+".hdf5"))
@@ -34,10 +34,10 @@ class KerasModel:
                                  activation=configs["conv_activation"]))
                 model.add(MaxPooling1D(pool_size=configs["pool_size"]))
                 model.add(BatchNormalization())
-                model.add(Dropout(0.25))
+                model.add(Dropout(0.3))
                 model.add(LSTM(128, return_sequences=True))
                 model.add(BatchNormalization())
-                model.add(Dropout(0.25))
+                model.add(Dropout(0.3))
                 model.add(LSTM(64))
                 model.add(BatchNormalization())
                 model.add(Dense(1))
@@ -54,7 +54,11 @@ class KerasModel:
 
     def predict(self, articles: List[List[int]]) -> List[float]:
         model = self._model
-        articles = sequence.pad_sequences(articles, maxlen=self._maxlen)
+        truncated_articles = []
+        for article in articles:
+            truncated_articles.append(list(word for word in article if 20 < word < 41000))
+        articles = sequence.pad_sequences(truncated_articles, maxlen=self._maxlen)
         with KerasModel.TF_GRAPH.as_default():
             result = model.predict(articles, batch_size=self._batch_size)
+        result = list(score**0.5 for score in result)
         return result
