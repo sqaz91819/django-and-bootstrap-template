@@ -263,29 +263,20 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
-                            <form action="{% url 'rate:index' %}" method="post">
-                                {% csrf_token %}
-                                <div class="input-group custom-search-form">
-                                    <input type="text" class="form-control" placeholder="Search..." name="search">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="submit">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </form>
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                            </div>
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a href="{% url 'rate:home' %}"><i class="fa fa-dashboard fa-fw"></i> HomePage</a>
-                        </li>
-                        <li>
-                            <!--
                             <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                            -->
                         </li>
                         <li>
-                            <!--
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -298,15 +289,12 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <!--
                             <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
-                            -->
                         </li>
                         <li>
-                            <a href="{% url 'rate:forms' %}"><i class="fa fa-edit fa-fw"></i> Forms</a>
+                            <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
                         </li>
                         <li>
-                            <!--
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -331,7 +319,6 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <!--
                             <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -361,6 +348,18 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
+                        <li>
+                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="blank.html">Blank Page</a>
+                                </li>
+                                <li>
+                                    <a href="login.html">Login Page</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -368,21 +367,56 @@
             <!-- /.navbar-static-side -->
         </nav>
 
-        <!-- Page Content -->
         <div id="page-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">MickeyRat</h1>
-                        <p>MickeyRat是個收集PTT電影版文章統整成一個評分的系統,目的在於讓使用者快速得知有興趣的電影在PTT上的評價好壞<br>
-                            在左上輸入想找的電影名稱,可以看到正負文章數量及評分,以及一些文章在PTT的相關資訊
-                        </p>
-                    </div>
-                    <!-- /.col-lg-12 -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">協助改善電影評分</h1>
                 </div>
-                <!-- /.row -->
+                <!-- /.col-lg-12 -->
             </div>
-            <!-- /.container-fluid -->
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            這個頁面是讓使用者能直接修改特定電影的評分文章的分數，輸入想找的電影和選擇想看的文章分數後就可以協助修改這些文章的評分
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <form action="{% url 'rate:modify' %}" method="post">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="mov2">電影名稱</label>
+                                            <input class="form-control" id="mov2" name="movie2">
+                                            <p class="help-block">輸入完整電影名稱提供搜尋.</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sel2">Selects</label>
+                                            <select class="form-control" id="sel2" name="score2">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                            <p class="help-block">請選擇想要看的文章分數(愈高分代表評價愈好)</p>
+                                            <p class="help-red">注意:文章是隨機選取的 改過的文章不會重複出現</p>
+                                        </div>
+                                        <button type="submit" class="btn btn-default">Submit Button</button>
+                                        <button type="reset" class="btn btn-default">Reset Button</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
 
