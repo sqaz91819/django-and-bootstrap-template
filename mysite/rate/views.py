@@ -31,7 +31,8 @@ class IndexView(generic.ListView):
                 nlp = [a['encode'] for a in nlp]
                 pos_articles = [[t['title'], t['url']] for t in temp if t['score'] > 3]
                 pos = [t['score'] for t in temp if t['score'] > 3]
-                neg = [t['score'] for t in temp if t['score'] == 3]
+                neg = [t['score'] for t in temp if 0 < t['score'] < 3]
+                example = temp[0]['content']
                 temp = [t['score'] for t in temp if t['score'] > 0]
                 neutral = len(temp) - len(pos) - len(neg)
 
@@ -44,7 +45,7 @@ class IndexView(generic.ListView):
                 score = (sum(temp) / len(temp)) * 21
                 articles = len(temp)
                 predict_result = model.predict(nlp)
-                fasttext_score = mean(predict_result) * 100
+                fasttext_score = int(mean(predict_result) * 100)
             except ZeroDivisionError:
                 return render(request, self.template_name, {
                     'form': form,
@@ -63,6 +64,7 @@ class IndexView(generic.ListView):
                 'neutral': neutral,
                 'pos_articles': pos_articles,
                 'fast_text': fasttext_score,
+                'art': example,
             })
 
         return render(request, self.template_name, {
