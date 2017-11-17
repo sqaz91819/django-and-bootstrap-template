@@ -7,7 +7,7 @@ from numpy import mean
 from .models import Query, ScoreMovie, Score
 from .crawler_api import mongodb
 from .model import KerasModel
-from time import sleep
+from random import randrange
 import re
 
 # Create your views here.
@@ -29,6 +29,7 @@ class IndexView(generic.ListView):
         if form.is_valid():
             temp, nlp = [[]], [[]]
             date_info = []
+            example = {}
             with mongodb.Mongodb(hash_check=False) as mgd:
                 temp = mgd.search_title('articles', form.query['search'])
                 nlp = mgd.search_encode('jie_ba_Articles', form.query['search'])
@@ -45,11 +46,12 @@ class IndexView(generic.ListView):
                             year = year - 1
                             month = 12
 
+                    example = temp[randrange(0, len(temp))]
+
                 nlp = [a['encode'] for a in nlp]
                 pos_articles = [[t['title'], t['url']] for t in temp if t['score'] > 3]
                 pos = [t['score'] for t in temp if t['score'] > 3]
                 neg = [t['score'] for t in temp if 0 < t['score'] < 3]
-                example = temp[0]['content']
                 temp = [t['score'] for t in temp if t['score'] > 0]
                 neutral = len(temp) - len(pos) - len(neg)
                 if len(pos_articles) > 0:
@@ -57,8 +59,8 @@ class IndexView(generic.ListView):
                 else:
                     about = False
 
-                if len(example) > 208:
-                    example = example[0:208]
+                if len(example['content']) > 208:
+                    example['content'] = example['content'][0:208]
 
             try:
                 score = (sum(temp) / len(temp)) * 21

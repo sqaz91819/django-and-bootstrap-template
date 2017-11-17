@@ -181,72 +181,6 @@
                         <li>
                             <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
                         </li>
-                        <li>
-                            <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="panels-wells.html">Panels and Wells</a>
-                                </li>
-                                <li>
-                                    <a href="buttons.html">Buttons</a>
-                                </li>
-                                <li>
-                                    <a href="notifications.html">Notifications</a>
-                                </li>
-                                <li>
-                                    <a href="typography.html">Typography</a>
-                                </li>
-                                <li>
-                                    <a href="icons.html"> Icons</a>
-                                </li>
-                                <li>
-                                    <a href="grid.html">Grid</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Third Level <span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                    </ul>
-                                    <!-- /.nav-third-level -->
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="blank.html">Blank Page</a>
-                                </li>
-                                <li>
-                                    <a href="login.html">Login Page</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -372,7 +306,7 @@
                 <div class="col-lg-8">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart Example
+                            <i class="fa fa-bar-chart-o fa-fw"></i> 深度學習模型評分比較圖
                             <div class="pull-right">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -437,7 +371,6 @@
                                                     <th>Model</th>
                                                     <th>Score</th>
                                                     <th>Time</th>
-                                                    <th>Amount</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -445,17 +378,14 @@
                                                     <td>Origin</td>
                                                     <td>{{ movie_score }}</td>
                                                     <td>---</td>
-                                                    <td>---</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Fast_Text</td>
                                                     <td>{{ fast_text }}</td>
                                                     <td>---</td>
-                                                    <td>---</td>
                                                 </tr>
                                                 <tr>
                                                     <td>LSTM</td>
-                                                    <td>---</td>
                                                     <td>---</td>
                                                     <td>---</td>
                                                 </tr>
@@ -463,25 +393,21 @@
                                                     <td>3322</td>
                                                     <td>10/21/2013</td>
                                                     <td>2:49 PM</td>
-                                                    <td>$8345.23</td>
                                                 </tr>
                                                 <tr>
                                                     <td>3321</td>
                                                     <td>10/21/2013</td>
                                                     <td>2:23 PM</td>
-                                                    <td>$245.12</td>
                                                 </tr>
                                                 <tr>
                                                     <td>3320</td>
                                                     <td>10/21/2013</td>
                                                     <td>2:15 PM</td>
-                                                    <td>$5663.54</td>
                                                 </tr>
                                                 <tr>
                                                     <td>3319</td>
                                                     <td>10/21/2013</td>
                                                     <td>2:13 PM</td>
-                                                    <td>$943.45</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -505,7 +431,7 @@
                     <!-- /.panel -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-clock-o fa-fw"></i> Responsive Timeline
+                            <i class="fa fa-clock-o fa-fw"></i> 文章部分預覽
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -515,12 +441,13 @@
                                     </div>
                                     <div class="timeline-panel">
                                         <div class="timeline-heading">
-                                            <h4 class="timeline-title">Lorem ipsum dolor</h4>
+                                            <h4 class="timeline-title">{{ art.title }}</h4>
                                             <p><small class="text-muted"><i class="fa fa-clock-o"></i> 11 hours ago via Twitter</small>
                                             </p>
                                         </div>
                                         <div class="timeline-body">
-                                            <p>{{ art }}</p>
+                                            <p>{{ art.content }}</p>
+                                            <a href="{{ art.url }}" target="_blank">See More...</a>
                                         </div>
                                     </div>
                                 </li>
