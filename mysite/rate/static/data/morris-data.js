@@ -3,55 +3,35 @@ $(function() {
     Morris.Area({
         element: 'morris-area-chart',
         data: [{
-            period: '2010 Q1',
+            period: date_info[5][0].toString().concat('-', date_info[5][1].toString()),
             iphone: date_info[5][2]
             /*
             ipad: null,
             itouch: 0
             */
         }, {
-            period: '2010 Q2',
+            period: date_info[4][0].toString().concat('-', date_info[4][1].toString()),
             iphone: date_info[4][2],
             ipad: 0,
             itouch: 0
         }, {
-            period: '2010 Q3',
+            period: date_info[3][0].toString().concat('-', date_info[3][1].toString()),
             iphone: date_info[3][2],
             ipad: 0,
             itouch: 0
         }, {
-            period: '2010 Q4',
+            period: date_info[2][0].toString().concat('-', date_info[2][1].toString()),
             iphone: date_info[2][2],
             ipad: 0,
             itouch: 0
         }, {
-            period: '2011 Q1',
+            period: date_info[1][0].toString().concat('-', date_info[1][1].toString()),
             iphone: date_info[1][2],
             ipad: 0,
             itouch: 0
         }, {
-            period: '2011 Q2',
+            period: date_info[0][0].toString().concat('-', date_info[0][1].toString()),
             iphone: date_info[0][2],
-            ipad: 0,
-            itouch: 0
-        }, {
-            period: '2011 Q3',
-            iphone: 0,
-            ipad: 0,
-            itouch: 0
-        }, {
-            period: '2011 Q4',
-            iphone: 0,
-            ipad: 0,
-            itouch: 0
-        }, {
-            period: '2012 Q1',
-            iphone: 0,
-            ipad: 0,
-            itouch: 0
-        }, {
-            period: '2012 Q2',
-            iphone: 0,
             ipad: 0,
             itouch: 0
         }],
