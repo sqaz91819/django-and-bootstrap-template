@@ -4,54 +4,56 @@ $(function() {
         element: 'morris-area-chart',
         data: [{
             period: '2010 Q1',
-            iphone: 266,
+            iphone: date_info[5][2]
+            /*
             ipad: null,
-            itouch: 264
+            itouch: 0
+            */
         }, {
             period: '2010 Q2',
-            iphone: 0,
+            iphone: date_info[4][2],
             ipad: 0,
             itouch: 0
         }, {
             period: '2010 Q3',
-            iphone: 0,
+            iphone: date_info[3][2],
             ipad: 0,
             itouch: 0
         }, {
             period: '2010 Q4',
-            iphone: 376,
-            ipad: 359,
-            itouch: 568
+            iphone: date_info[2][2],
+            ipad: 0,
+            itouch: 0
         }, {
             period: '2011 Q1',
-            iphone: 680,
-            ipad: 191,
-            itouch: 293
+            iphone: date_info[1][2],
+            ipad: 0,
+            itouch: 0
         }, {
             period: '2011 Q2',
-            iphone: 570,
-            ipad: 423,
-            itouch: 181
+            iphone: date_info[0][2],
+            ipad: 0,
+            itouch: 0
         }, {
             period: '2011 Q3',
-            iphone: 420,
-            ipad: 375,
-            itouch: 188
+            iphone: 0,
+            ipad: 0,
+            itouch: 0
         }, {
             period: '2011 Q4',
-            iphone: 173,
-            ipad: 597,
-            itouch: 575
+            iphone: 0,
+            ipad: 0,
+            itouch: 0
         }, {
             period: '2012 Q1',
-            iphone: 187,
-            ipad: 440,
-            itouch: 228
+            iphone: 0,
+            ipad: 0,
+            itouch: 0
         }, {
             period: '2012 Q2',
-            iphone: 432,
-            ipad: 513,
-            itouch: 791
+            iphone: 0,
+            ipad: 0,
+            itouch: 0
         }],
         xkey: 'period',
         ykeys: ['iphone', 'ipad', 'itouch'],

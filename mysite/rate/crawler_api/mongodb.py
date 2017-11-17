@@ -7,6 +7,7 @@ from inspect import currentframe, getframeinfo
 from ..Logger import log
 from traceback import format_tb
 from .crawler import dump_pickle, load_pickle
+from datetime import datetime
 
 
 def read_path(filename):
@@ -72,6 +73,19 @@ class Mongodb:
         log(getframeinfo(currentframe()), 'Query : ', query, ' in ', field, ' total : ', str(len(lst)))
         log(getframeinfo(currentframe()), 'Spent time : ', str(time() - start)[0:5], ' secs')
         return lst
+
+    def search_date(self, col_name: str, month: int, year: int, query: str) -> int:
+        big_month = [1, 3, 5, 7, 8, 10, 12]
+        if month in big_month:
+            date = 31
+        elif month == 2:
+            date = 28
+        else:
+            date = 30
+        start = datetime(year, month, 1)
+        end = datetime(year, month, date)
+        docs = self.db[col_name].find({'title': {'$regex': ".*" + query + ".*"}, 'date': {'$lt': end, '$gte': start}})
+        return docs.count()
 
     def search_dual(self, col_name: str, field1: str, query: str, field2: str, score: int) -> Articles:
             start = time()
