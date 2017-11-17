@@ -7,6 +7,8 @@ from numpy import mean
 from .models import Query, ScoreMovie, Score
 from .crawler_api import mongodb
 from .model import KerasModel
+from time import sleep
+import re
 
 # Create your views here.
 model = KerasModel("model")
@@ -25,9 +27,24 @@ class IndexView(generic.ListView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
+            temp, nlp = [[]], [[]]
+            date_info = []
             with mongodb.Mongodb(hash_check=False) as mgd:
                 temp = mgd.search_title('articles', form.query['search'])
                 nlp = mgd.search_encode('jie_ba_Articles', form.query['search'])
+                if temp:
+                    date_str = temp[len(temp) - 1]['date_added']
+                    year, month = re.split('[-T]', date_str)[0:2]
+                    year = int(year)
+                    month = int(month)
+                    for i in range(1, 7):
+                        post_num = mgd.search_date('articles001', month, year, form.query['search'])
+                        date_info.append([year, month, post_num])
+                        month = month - 1
+                        if month == 0:
+                            year = year - 1
+                            month = 12
+
                 nlp = [a['encode'] for a in nlp]
                 pos_articles = [[t['title'], t['url']] for t in temp if t['score'] > 3]
                 pos = [t['score'] for t in temp if t['score'] > 3]
@@ -35,11 +52,13 @@ class IndexView(generic.ListView):
                 example = temp[0]['content']
                 temp = [t['score'] for t in temp if t['score'] > 0]
                 neutral = len(temp) - len(pos) - len(neg)
+                if len(pos_articles) > 0:
+                    about = True
+                else:
+                    about = False
 
-            if len(pos_articles) > 0:
-                about = True
-            else:
-                about = False
+                if len(example) > 208:
+                    example = example[0:208]
 
             try:
                 score = (sum(temp) / len(temp)) * 21
@@ -65,6 +84,7 @@ class IndexView(generic.ListView):
                 'pos_articles': pos_articles,
                 'fast_text': fasttext_score,
                 'art': example,
+                'date_info': date_info,
             })
 
         return render(request, self.template_name, {
