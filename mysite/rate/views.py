@@ -30,6 +30,7 @@ class IndexView(generic.ListView):
             temp, nlp = [[]], [[]]
             date_info = []
             example = {}
+            articles_list = []
             with mongodb.Mongodb(hash_check=False) as mgd:
                 temp = mgd.search_title('articles', form.query['search'])
                 nlp = mgd.search_encode('jie_ba_Articles', form.query['search'])
@@ -45,7 +46,7 @@ class IndexView(generic.ListView):
                         if month == 0:
                             year = year - 1
                             month = 12
-
+                    articles_list = temp
                     example = temp[randrange(0, len(temp))]
 
                 nlp = [a['encode'] for a in nlp]
@@ -87,6 +88,7 @@ class IndexView(generic.ListView):
                 'fast_text': fasttext_score,
                 'art': example,
                 'date_info': date_info,
+                'articles_list': articles_list
             })
 
         return render(request, self.template_name, {

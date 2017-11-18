@@ -18,6 +18,12 @@
     <!-- MetisMenu CSS -->
     <link href="{% static 'vendor/metisMenu/metisMenu.min.css' %}" rel="stylesheet">
 
+
+    <link href="{% static 'vendor/datatables-plugins/dataTables.bootstrap.css' %}" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="{% static 'vendor/datatables-responsive/dataTables.responsive.css' %}" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link href="{% static 'dist/css/sb-admin-20.css' %}" rel="stylesheet">
 
@@ -37,6 +43,13 @@
     <![endif]-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+    <style>
+        #panel, #flip {
+        }
+        #panel {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -160,25 +173,10 @@
                             <a href="{% url 'rate:home' %}"><i class="fa fa-dashboard fa-fw"></i> HomePage</a>
                         </li>
                         <li>
-                            <a href="{% url 'rate:index' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="flot.html">Flot Charts</a>
-                                </li>
-                                <li>
-                                    <a href="morris.html">Morris.js Charts</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li>
                             <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
                         </li>
                         <li>
-                            <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
+                            <a href="{% url 'rate:forms' %}"><i class="fa fa-edit fa-fw"></i> Forms</a>
                         </li>
                     </ul>
                 </div>
@@ -224,11 +222,20 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
+                        <a>
+                            <script>
+                                $(document).ready(function(){
+                                    $("#flip").click(function(){
+                                        $("#panel").slideToggle("slow");
+                                    });
+                                });
+                            </script>
+                            <div id="flip">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
                             </div>
                         </a>
                     </div>
@@ -299,6 +306,44 @@
                         </a>
                     </div>
                 </div>
+            </div>
+            <!-- /.row -->
+            <div id="panel">
+                <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            所有文章資訊列表
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>作者</th>
+                                        <th>標題</th>
+                                        <th>分數</th>
+                                        <th>發文時間</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for article in articles_list %}
+                                        <tr class="{% cycle 'odd' 'even' %}">
+                                            <td>{{ article.author }}</td>
+                                            <td>{{ article.title }}</td>
+                                            <td>{{ article.score }}</td>
+                                            <td>{{ article.date_added }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
             </div>
             <!-- /.row -->
             <div class="row">
@@ -668,9 +713,21 @@
     <script src="{% static 'vendor/morrisjs/morris.min.js' %}"></script>
     <script src="{% static 'data/morris-data.js' %}"></script>
 
+     <!-- DataTables JavaScript -->
+    <script src="{% static 'vendor/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'vendor/datatables-plugins/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'vendor/datatables-responsive/dataTables.responsive.js' %}"></script>
     <!-- Custom Theme JavaScript -->
     <script src="{% static 'dist/js/sb-admin-2.js' %}"></script>
 
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+            responsive: true
+        });
+    });
+    </script>
 </body>
 
 </html>
