@@ -5,39 +5,25 @@ $(function() {
         data: [{
             period: date_info[5][0].toString().concat('-', date_info[5][1].toString()),
             iphone: date_info[5][2]
-            /*
-            ipad: null,
-            itouch: 0
-            */
         }, {
             period: date_info[4][0].toString().concat('-', date_info[4][1].toString()),
-            iphone: date_info[4][2],
-            ipad: 0,
-            itouch: 0
+            iphone: date_info[4][2]
         }, {
             period: date_info[3][0].toString().concat('-', date_info[3][1].toString()),
-            iphone: date_info[3][2],
-            ipad: 0,
-            itouch: 0
+            iphone: date_info[3][2]
         }, {
             period: date_info[2][0].toString().concat('-', date_info[2][1].toString()),
-            iphone: date_info[2][2],
-            ipad: 0,
-            itouch: 0
+            iphone: date_info[2][2]
         }, {
             period: date_info[1][0].toString().concat('-', date_info[1][1].toString()),
-            iphone: date_info[1][2],
-            ipad: 0,
-            itouch: 0
+            iphone: date_info[1][2]
         }, {
             period: date_info[0][0].toString().concat('-', date_info[0][1].toString()),
-            iphone: date_info[0][2],
-            ipad: 0,
-            itouch: 0
+            iphone: date_info[0][2]
         }],
         xkey: 'period',
-        ykeys: ['iphone', 'ipad', 'itouch'],
-        labels: ['iPhone', 'iPad', 'iPod Touch'],
+        ykeys: ['iphone'],
+        labels: ['Total articles'],
         pointSize: 2,
         hideHover: 'auto',
         resize: true
@@ -62,24 +48,17 @@ $(function() {
         element: 'morris-bar-chart',
         data: [{
             y: 'Origin',
-            a: ori,
-            b: 0
+            a: ori
         }, {
             y: 'fast',
-            a: fast_text,
-            b: 0
+            a: fast_text
         }, {
             y: 'LSTM',
-            a: 0,
-            b: 0
-        }, {
-            y: '2009',
-            a: 0,
-            b: 0
+            a: 0
         }],
         xkey: 'y',
-        ykeys: ['a', 'b'],
-        labels: ['Series A', 'Series B'],
+        ykeys: ['a'],
+        labels: ['Score'],
         hideHover: 'auto',
         resize: true
     });
