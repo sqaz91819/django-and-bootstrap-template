@@ -53,8 +53,11 @@ $(function() {
             y: 'fast',
             a: fast_text
         }, {
-            y: 'LSTM',
-            a: 0
+            y: 'CNN-LSTM',
+            a: cnn_lstm
+        }, {
+            y: 'CNN-2LSTM',
+            a: cnn_2lstm
         }],
         xkey: 'y',
         ykeys: ['a'],
