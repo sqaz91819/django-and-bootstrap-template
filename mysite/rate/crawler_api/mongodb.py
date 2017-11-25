@@ -74,22 +74,6 @@ class Mongodb:
         log(getframeinfo(currentframe()), 'Spent time : ', str(time() - start)[0:5], ' secs')
         return lst
 
-    def search_date(self, col_name: str, month: int, year: int, query: str) -> int:
-        start_log = time()
-        big_month = [1, 3, 5, 7, 8, 10, 12]
-        if month in big_month:
-            date = 31
-        elif month == 2:
-            date = 28
-        else:
-            date = 30
-        start = datetime(year, month, 1)
-        end = datetime(year, month, date)
-        docs = self.db[col_name].find({'title': {'$regex': ".*" + query + ".*"}, 'date': {'$lt': end, '$gte': start}})
-        log(getframeinfo(currentframe()), 'Date : ', year, '-', month)
-        log(getframeinfo(currentframe()), 'Spent time : ', str(time() - start_log)[0:5], ' secs')
-        return docs.count()
-
     def search_dual(self, col_name: str, field1: str, query: str, field2: str, score: int) -> Articles:
             start = time()
             docs = self.db[col_name].find_one({

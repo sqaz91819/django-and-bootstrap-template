@@ -40,7 +40,11 @@ class IndexView(generic.ListView):
                     year = int(year)
                     month = int(month)
                     for i in range(1, 7):
-                        post_num = mgd.search_date('articles001', month, year, form.query['search'])
+                        post_num = 0
+                        for t in temp:
+                            if int(t['date_added'][0:4]) == year and int(t['date_added'][5:7]) == month:
+                                post_num += 1
+
                         date_info.append([year, month, post_num])
                         month = month - 1
                         if month == 0:
