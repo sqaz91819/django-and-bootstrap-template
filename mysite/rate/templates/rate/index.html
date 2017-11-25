@@ -185,7 +185,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">{{ query }} {{ fast_text }}</h1>
+                    <h1 class="page-header">{{ query }} {{ fast_text }} {{ cnn_lstm }} {{ cnn_2lstm }}</h1>
                     <script type="text/javascript">
                         $(function() {
                               function addScore(score, $domElement) {
@@ -388,8 +388,13 @@
                                                     <td>---</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>LSTM</td>
-                                                    <td>0</td>
+                                                    <td>CNN_LSTM</td>
+                                                    <td>{{ cnn_lstm }}</td>
+                                                    <td>---</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>CNN2LSTM</td>
+                                                    <td>{{ cnn_2lstm }}</td>
                                                     <td>---</td>
                                                 </tr>
                                             </tbody>
@@ -401,6 +406,8 @@
                                 <div class="col-lg-8">
                                     <script>
                                         fast_text = {{ fast_text }}
+                                        cnn_lstm = {{ cnn_lstm }}
+                                        cnn_2lstm = {{ cnn_2lstm }}
                                         ori = {{ movie_score }}
                                     </script>
                                     <div id="morris-bar-chart"></div>

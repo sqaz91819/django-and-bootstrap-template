@@ -9,9 +9,10 @@ from .crawler_api import mongodb
 from .model import KerasModel
 from random import randrange
 import re
-
 # Create your views here.
-model = KerasModel("model")
+
+
+model_handler = KerasModel()
 
 
 class HomeView(generic.TemplateView):
@@ -19,7 +20,6 @@ class HomeView(generic.TemplateView):
 
 
 class IndexView(generic.ListView):
-    # fasttext = copy(fasttext_model)
     model = Query
     form_class = Query
     template_name = 'rate/index.html'
@@ -66,8 +66,10 @@ class IndexView(generic.ListView):
             try:
                 score = (sum(temp) / len(temp)) * 21
                 articles = len(temp)
-                predict_result = model.predict(nlp)
-                fasttext_score = int(mean(predict_result) * 100)
+                predict_result = model_handler.predict(nlp)
+                fasttext_score = int(mean(predict_result['fasttext']) * 100)
+                cnn_lstm_score = int(mean(predict_result['cnn_lstm']) * 100)
+                cnn2lstm_score = int(mean(predict_result['cnn_2lstm']) * 100)
             except ZeroDivisionError:
                 return render(request, self.template_name, {
                     'form': form,
@@ -86,6 +88,8 @@ class IndexView(generic.ListView):
                 'neutral': neutral,
                 'pos_articles': pos_articles,
                 'fast_text': fasttext_score,
+                'cnn_lstm': cnn_lstm_score,
+                'cnn_2lstm': cnn2lstm_score,
                 'art': example,
                 'date_info': date_info,
                 'articles_list': articles_list
