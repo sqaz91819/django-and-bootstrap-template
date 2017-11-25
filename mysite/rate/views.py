@@ -29,11 +29,10 @@ class IndexView(generic.ListView):
         if form.is_valid():
             temp, nlp = [[]], [[]]
             date_info = []
-            example = {}
+            example = []
             articles_list = []
             with mongodb.Mongodb(hash_check=False) as mgd:
                 temp = mgd.search_title('articles', form.query['search'])
-                nlp = mgd.search_encode('jie_ba_Articles', form.query['search'])
                 if temp:
                     date_str = temp[len(temp) - 1]['date_added']
                     year, month = re.split('[-T]', date_str)[0:2]
@@ -51,9 +50,14 @@ class IndexView(generic.ListView):
                             year = year - 1
                             month = 12
                     articles_list = temp
-                    example = temp[randrange(0, len(temp))]
 
-                nlp = [a['encode'] for a in nlp]
+                    for i in range(1, 5):
+                        random_art = temp[randrange(0, len(temp))]
+                        if len(random_art['content']) > 208:
+                            random_art['content'] = random_art['content'][0:208]
+                        example.append(random_art)
+
+                    nlp = [t['encode'] for t in temp]
                 pos_articles = [[t['title'], t['url']] for t in temp if t['score'] > 3]
                 pos = [t['score'] for t in temp if t['score'] > 3]
                 neg = [t['score'] for t in temp if 0 < t['score'] < 3]
@@ -64,8 +68,9 @@ class IndexView(generic.ListView):
                 else:
                     about = False
 
-                if len(example['content']) > 208:
-                    example['content'] = example['content'][0:208]
+                for ex in example:
+                    if len(ex['content']) > 208:
+                        ex['content'] = ex['content'][0:208]
 
             try:
                 score = (sum(temp) / len(temp)) * 21
