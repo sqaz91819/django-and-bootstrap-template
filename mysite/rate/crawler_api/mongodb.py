@@ -43,7 +43,7 @@ class Mongodb:
 
     def search_title(self, col_name: str, query: str) -> Articles:
         start = time()
-        docs = self.db[col_name].find({'title': {'$regex': ".*" + query + ".*"}})
+        docs = self.db[col_name].find({'title': {'$regex': ".*" + query + ".*"}, 'score': {'$gt': 0}})
         if not docs:
             log(getframeinfo(currentframe()), 'Collection does not exist or no doc match.')
             return []
