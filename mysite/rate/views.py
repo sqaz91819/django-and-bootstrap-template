@@ -1,14 +1,10 @@
 from django.shortcuts import render
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 from django.views import generic
 from numpy import mean
 from .models import Query, ScoreMovie, Score
 from .crawler_api import mongodb
 from .crawler_api.crawler import pre_art
 from .model import KerasModel
-from random import randrange
 import re
 # Create your views here.
 
@@ -60,7 +56,7 @@ class IndexView(generic.ListView):
                     temp = [t['score'] for t in temp]
 
             try:
-                score = (sum(temp) / len(temp)) * 21
+                stat_score = (sum(temp) / len(temp)) * 21
                 articles = len(temp)
                 predict_result = model_handler.predict(nlp)
                 fasttext_score = int(mean(predict_result['fasttext']) * 100)
@@ -76,7 +72,7 @@ class IndexView(generic.ListView):
                 'form': form,
                 'search_valid': True,
                 'query': form.query['search'],
-                'movie_score': int(score),
+                'movie_score': int(stat_score),
                 'total': articles,
                 'pos': len(pos_articles),
                 'neg': len(neg_articles),
@@ -135,7 +131,6 @@ def score(request):
 
             with mongodb.Mongodb(hash_check=False) as mgd:
                 mgd.update_score('articles', id1, int(get_score))
-                # mgd.update_score('jie_ba_Articles', _id, get_score)
                 mgd.update_modified(id1)
 
             return render(request, 'rate/forms.html')

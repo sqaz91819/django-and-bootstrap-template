@@ -74,7 +74,7 @@ class Mongodb:
         log(getframeinfo(currentframe()), 'Spent time : ', str(time() - start)[0:5], ' secs')
         return lst
 
-    def search_dual(self, col_name: str, field1: str, query: str, field2: str, score: int) -> Articles:
+    def search_dual(self, col_name: str, field1: str, query: str, field2: str, score: int) -> Article:
             start = time()
             docs = self.db[col_name].find_one({
                 field1: {'$regex': ".*" + query + ".*"},
