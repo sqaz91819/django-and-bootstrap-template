@@ -206,3 +206,23 @@ def load_pickle(filename: str):
     with open(path.join('crawler_api', 'cache_files', filename + '.pickle'), 'rb') as handle:
         obj = load(handle)
     return obj
+
+
+def pre_art(articles: list) -> dict:
+    target = {}
+    tar_val = 0
+    for article in articles:
+        try:
+            pre_val = (len(article['content']) * 0.35) * (article['message_count']['all'] * 0.75)
+        except KeyError:
+            continue
+        pre_val = int(pre_val)
+        if pre_val > tar_val:
+            target = article
+            tar_val = pre_val
+    try:
+        if len(target['content']) > 208:
+            target['content'] = target['content'][0:208]
+    except KeyError:
+        return {'title': '無此分類文章', 'url': '#'}
+    return target

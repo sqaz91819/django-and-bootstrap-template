@@ -6,6 +6,7 @@ from django.views import generic
 from numpy import mean
 from .models import Query, ScoreMovie, Score
 from .crawler_api import mongodb
+from .crawler_api.crawler import pre_art
 from .model import KerasModel
 from random import randrange
 import re
@@ -49,21 +50,14 @@ class IndexView(generic.ListView):
                             year = year - 1
                             month = 12
 
-                    for i in range(1, 5):
-                        random_art = temp[randrange(0, len(temp))]
-                        if len(random_art['content']) > 208:
-                            random_art['content'] = random_art['content'][0:208]
-                        example.append(random_art)
-
                     nlp = [t['encode'] for t in temp]
-                pos_articles = [t for t in temp if t['score'] > 3]
-                neu_articles = [t for t in temp if t['score'] == 3]
-                neg_articles = [t for t in temp if t['score'] < 3]
-                temp = [t['score'] for t in temp]
-
-                for ex in example:
-                    if len(ex['content']) > 208:
-                        ex['content'] = ex['content'][0:208]
+                    pos_articles = [t for t in temp if t['score'] > 3]
+                    neu_articles = [t for t in temp if t['score'] == 3]
+                    neg_articles = [t for t in temp if t['score'] < 3]
+                    example.append(pre_art(temp))
+                    example.append(pre_art(neu_articles))
+                    example.append(pre_art(neg_articles))
+                    temp = [t['score'] for t in temp]
 
             try:
                 score = (sum(temp) / len(temp)) * 21
