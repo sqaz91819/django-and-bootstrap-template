@@ -30,7 +30,6 @@ class IndexView(generic.ListView):
             temp, nlp = [[]], [[]]
             date_info = []
             example = []
-            articles_list = []
             with mongodb.Mongodb(hash_check=False) as mgd:
                 temp = mgd.search_title('articles', form.query['search'])
                 if temp:
@@ -49,7 +48,6 @@ class IndexView(generic.ListView):
                         if month == 0:
                             year = year - 1
                             month = 12
-                    articles_list = temp
 
                     for i in range(1, 5):
                         random_art = temp[randrange(0, len(temp))]
@@ -58,15 +56,10 @@ class IndexView(generic.ListView):
                         example.append(random_art)
 
                     nlp = [t['encode'] for t in temp]
-                pos_articles = [[t['title'], t['url']] for t in temp if t['score'] > 3]
-                pos = [t['score'] for t in temp if t['score'] > 3]
-                neg = [t['score'] for t in temp if 0 < t['score'] < 3]
-                temp = [t['score'] for t in temp if t['score'] > 0]
-                neutral = len(temp) - len(pos) - len(neg)
-                if len(pos_articles) > 0:
-                    about = True
-                else:
-                    about = False
+                pos_articles = [t for t in temp if t['score'] > 3]
+                neu_articles = [t for t in temp if t['score'] == 3]
+                neg_articles = [t for t in temp if t['score'] < 3]
+                temp = [t['score'] for t in temp]
 
                 for ex in example:
                     if len(ex['content']) > 208:
@@ -88,20 +81,18 @@ class IndexView(generic.ListView):
             return render(request, self.template_name, {
                 'form': form,
                 'search_valid': True,
-                'about': about,
                 'query': form.query['search'],
                 'movie_score': int(score),
-                'articles': articles,
-                'pos': len(pos),
-                'neg': len(neg),
-                'neutral': neutral,
-                'pos_articles': pos_articles,
+                'total': articles,
+                'pos': len(pos_articles),
+                'neg': len(neg_articles),
+                'neutral': len(neu_articles),
                 'fast_text': fasttext_score,
                 'cnn_lstm': cnn_lstm_score,
                 'cnn_2lstm': cnn2lstm_score,
                 'art': example,
                 'date_info': date_info,
-                'articles_list': articles_list
+                'pos_articles': pos_articles
             })
 
         return render(request, self.template_name, {
