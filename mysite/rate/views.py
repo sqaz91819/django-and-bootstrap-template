@@ -92,7 +92,9 @@ class IndexView(generic.ListView):
                 'cnn_2lstm': cnn2lstm_score,
                 'art': example,
                 'date_info': date_info,
-                'pos_articles': pos_articles
+                'pos_articles': pos_articles,
+                'neg_articles': neg_articles,
+                'neu_articles': neu_articles
             })
 
         return render(request, self.template_name, {
