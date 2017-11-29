@@ -47,6 +47,11 @@ class IndexView(generic.ListView):
                             month = 12
 
                     nlp = [t['encode'] for t in temp]
+                    predict_result = model_handler.predict(nlp)
+                    for ori, ft, cl, c2l in zip(temp, predict_result['fasttext'], predict_result['cnn_lstm'], predict_result['cnn_2lstm']):
+                        ori['fasttext'] = ft
+                        ori['cnn_lstm'] = cl
+                        ori['cnn_2lstm'] = c2l
                     pos_articles = [t for t in temp if t['score'] > 3]
                     neu_articles = [t for t in temp if t['score'] == 3]
                     neg_articles = [t for t in temp if t['score'] < 3]
@@ -58,7 +63,6 @@ class IndexView(generic.ListView):
             try:
                 stat_score = (sum(temp) / len(temp)) * 21
                 articles = len(temp)
-                predict_result = model_handler.predict(nlp)
                 fasttext_score = int(mean(predict_result['fasttext']) * 100)
                 cnn_lstm_score = int(mean(predict_result['cnn_lstm']) * 100)
                 cnn2lstm_score = int(mean(predict_result['cnn_2lstm']) * 100)
