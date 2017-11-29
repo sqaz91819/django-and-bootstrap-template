@@ -2,6 +2,7 @@
     position: relative;
     display: inline-block;
     color: transparent;
+    font-size: 50px;
 }
 
 .stars-container:before {
@@ -10,6 +11,7 @@
     left: 0;
     content: '★★★★★';
     color: lightgray;
+    font-size: 50px;
 }
 
 .stars-container:after {
@@ -19,6 +21,7 @@
     content: '★★★★★';
     color: gold;
     overflow: hidden;
+    font-size: 50px;
 }
 
 .stars-0:after {
