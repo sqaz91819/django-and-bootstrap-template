@@ -125,6 +125,10 @@ class ModifyView(generic.ListView):
         return render(request, 'rate/labelfix.html', {'error_message': 'Not valid input.'})
 
 
+class CompareView(generic.TemplateView):
+    template_name = 'rate/compare.html'
+
+
 def score(request):
     if request.method == 'POST':
         form = Score(request.POST)
