@@ -55,7 +55,7 @@ class IndexView(generic.ListView):
                     pos_articles = [t for t in temp if t['score'] > 3]
                     neu_articles = [t for t in temp if t['score'] == 3]
                     neg_articles = [t for t in temp if t['score'] < 3]
-                    example.append(pre_art(temp))
+                    example.append(pre_art(pos_articles))
                     example.append(pre_art(neu_articles))
                     example.append(pre_art(neg_articles))
                     temp = [t['score'] for t in temp]
