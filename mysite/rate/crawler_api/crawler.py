@@ -213,10 +213,14 @@ def pre_art(articles: list) -> dict:
     tar_val = 0
     for article in articles:
         try:
-            pre_val = (len(article['content']) * 0.35) * (article['message_count']['all'] * 0.75)
+            weighted_art_len = len(article['content']) * 0.35
         except KeyError:
-            continue
-        pre_val = int(pre_val)
+            weighted_art_len = 0
+        try:
+            weighted_message_count = article['message_count']['all'] * 0.75
+        except KeyError:
+            weighted_message_count = 0
+        pre_val = int(weighted_art_len + weighted_message_count)
         if pre_val > tar_val:
             target = article
             tar_val = pre_val
