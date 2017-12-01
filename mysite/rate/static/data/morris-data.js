@@ -48,20 +48,28 @@ $(function() {
         element: 'morris-bar-chart',
         data: [{
             y: 'Origin',
-            a: ori
+            old: old_ori,
+            new: new_ori,
+            total: ori
         }, {
-            y: 'fast',
-            a: fast_text
+            y: 'FastText',
+            old: old_fast_text,
+            new: new_fast_text,
+            total: fast_text
         }, {
             y: 'CNN-LSTM',
-            a: cnn_lstm
+            old: old_cnn_lstm,
+            new: new_cnn_lstm,
+            total: cnn_lstm
         }, {
             y: 'CNN-2LSTM',
-            a: cnn_2lstm
+            old: old_cnn_2lstm,
+            new: new_cnn_2lstm,
+            total: cnn_2lstm
         }],
         xkey: 'y',
-        ykeys: ['a'],
-        labels: ['Score'],
+        ykeys: ['old', 'new', 'total'],
+        labels: ['Score of Known Data', 'Score of Unknown Data', 'Total'],
         hideHover: 'auto',
         resize: true
     });

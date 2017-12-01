@@ -6,6 +6,7 @@ from .crawler_api import mongodb
 from .crawler_api.crawler import pre_art
 from .model import KerasModel
 import re
+from datetime import datetime
 # Create your views here.
 
 
@@ -24,19 +25,23 @@ class IndexView(generic.ListView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            temp, nlp = [[]], [[]]
+            pos_articles, neu_articles, neg_articles = [], [], []
+            labeled_score = []
             date_info = []
             example = []
             with mongodb.Mongodb(hash_check=False) as mgd:
-                temp = mgd.search_title('articles', form.query['search'])
-                if temp:
-                    date_str = temp[len(temp) - 1]['date_added']
+                old_articles = mgd.search_title('articles', form.query['search'])
+                new_articles = mgd.search_title('new_articles', form.query['search'])
+                total = old_articles + new_articles
+                split = len(old_articles)
+                if total:
+                    date_str = total[len(total) - 1]['date_added']
                     year, month = re.split('[-T]', date_str)[0:2]
                     year = int(year)
                     month = int(month)
                     for i in range(1, 7):
                         post_num = 0
-                        for t in temp:
+                        for t in total:
                             if int(t['date_added'][0:4]) == year and int(t['date_added'][5:7]) == month:
                                 post_num += 1
 
@@ -46,26 +51,41 @@ class IndexView(generic.ListView):
                             year = year - 1
                             month = 12
 
-                    nlp = [t['encode'] for t in temp]
+                    nlp = [t['encode'] for t in total]
                     predict_result = model_handler.predict(nlp)
-                    for ori, ft, cl, c2l in zip(temp, predict_result['fasttext'], predict_result['cnn_lstm'], predict_result['cnn_2lstm']):
+                    for ori, ft, cl, c2l in zip(total, predict_result['fasttext'], predict_result['cnn_lstm'], predict_result['cnn_2lstm']):
                         ori['fasttext'] = ft
                         ori['cnn_lstm'] = cl
                         ori['cnn_2lstm'] = c2l
-                    pos_articles = [t for t in temp if t['score'] > 3]
-                    neu_articles = [t for t in temp if t['score'] == 3]
-                    neg_articles = [t for t in temp if t['score'] < 3]
+                    pos_articles = [t for t in total if t['score'] > 3]
+                    neu_articles = [t for t in total if t['score'] == 3]
+                    neg_articles = [t for t in total if t['score'] < 3]
                     example.append(pre_art(pos_articles))
                     example.append(pre_art(neu_articles))
                     example.append(pre_art(neg_articles))
-                    temp = [t['score'] for t in temp]
+                    labeled_score = [t['score'] for t in total]
 
             try:
-                stat_score = (sum(temp) / len(temp)) * 21
-                articles = len(temp)
+                old_stat_score = int((sum(labeled_score[:split]) / len(labeled_score[:split])) * 21)
+                new_stat_score = int((sum(labeled_score[split:]) / len(labeled_score[split:])) * 21)
+                st = datetime.now()
+                stat_score = int((sum(labeled_score) / len(labeled_score)) * 21)
+                stat_score_time = datetime.now() - st
+                old_articles = len(labeled_score[:split])
+                new_articles = len(labeled_score[split:])
+                articles = len(labeled_score)
+                old_fasttext_score = int(mean(predict_result['fasttext'][:split]) * 100)
+                new_fasttext_score = int(mean(predict_result['fasttext'][split:]) * 100)
                 fasttext_score = int(mean(predict_result['fasttext']) * 100)
+                fasttext_time = predict_result['fasttext_time']
+                old_cnn_lstm_score = int(mean(predict_result['cnn_lstm'][:split]) * 100)
+                new_cnn_lstm_score = int(mean(predict_result['cnn_lstm'][split:]) * 100)
                 cnn_lstm_score = int(mean(predict_result['cnn_lstm']) * 100)
+                cnn_lstm_time = predict_result['cnn_lstm_time']
+                old_cnn2lstm_score = int(mean(predict_result['cnn_2lstm'][:split]) * 100)
+                new_cnn2lstm_score = int(mean(predict_result['cnn_2lstm'][split:]) * 100)
                 cnn2lstm_score = int(mean(predict_result['cnn_2lstm']) * 100)
+                cnn2lstm_time = predict_result['cnn_2lstm_time']
             except ZeroDivisionError:
                 return render(request, self.template_name, {
                     'form': form,
@@ -76,14 +96,33 @@ class IndexView(generic.ListView):
                 'form': form,
                 'search_valid': True,
                 'query': form.query['search'],
-                'movie_score': int(stat_score),
+
+                'old_movie_score': old_stat_score,
+                'old_total': old_articles,
+                'old_fast_text': old_fasttext_score,
+                'old_cnn_lstm': old_cnn_lstm_score,
+                'old_cnn_2lstm': old_cnn2lstm_score,
+
+                'movie_score': stat_score,
                 'total': articles,
-                'pos': len(pos_articles),
-                'neg': len(neg_articles),
-                'neutral': len(neu_articles),
                 'fast_text': fasttext_score,
                 'cnn_lstm': cnn_lstm_score,
                 'cnn_2lstm': cnn2lstm_score,
+
+                'new_movie_score': new_stat_score,
+                'new_total': new_articles,
+                'new_fast_text': new_fasttext_score,
+                'new_cnn_lstm': new_cnn_lstm_score,
+                'new_cnn_2lstm': new_cnn2lstm_score,
+
+                'total_time': '{:05.2f} sec'.format(stat_score_time.total_seconds()),
+                'fast_text_time': '{:05.2f} sec'.format(fasttext_time.total_seconds()),
+                'cnn_lstm_time': '{:05.2f} sec'.format(cnn_lstm_time.total_seconds()),
+                'cnn_2lstm_time': '{:05.2f} sec'.format(cnn2lstm_time.total_seconds()),
+
+                'pos': len(pos_articles),
+                'neg': len(neg_articles),
+                'neutral': len(neu_articles),
                 'art': example,
                 'date_info': date_info,
                 'pos_articles': pos_articles,

@@ -32,7 +32,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">{{ query }} {{ fast_text }} {{ cnn_lstm }} {{ cnn_2lstm }}</h1>
+                    <h1 class="page-header">{{ query }}</h1>
                     <script type="text/javascript">
                         $(function() {
                               function addScore(score, $domElement) {
@@ -327,22 +327,22 @@
                                                 <tr>
                                                     <td>Origin</td>
                                                     <td>{{ movie_score }}</td>
-                                                    <td>---</td>
+                                                    <td>{{ total_time }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Fast_Text</td>
                                                     <td>{{ fast_text }}</td>
-                                                    <td>---</td>
+                                                    <td>{{ fast_text_time }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>CNN_LSTM</td>
                                                     <td>{{ cnn_lstm }}</td>
-                                                    <td>---</td>
+                                                    <td>{{ cnn_lstm_time }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>CNN2LSTM</td>
                                                     <td>{{ cnn_2lstm }}</td>
-                                                    <td>---</td>
+                                                    <td>{{ cnn_2lstm_time }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -352,10 +352,18 @@
                                 <!-- /.col-lg-4 (nested) -->
                                 <div class="col-lg-8">
                                     <script>
+                                        old_fast_text = {{ old_fast_text }}
+                                        old_cnn_lstm = {{ old_cnn_lstm }}
+                                        old_cnn_2lstm = {{ old_cnn_2lstm }}
+                                        old_ori = {{ old_movie_score }}
                                         fast_text = {{ fast_text }}
                                         cnn_lstm = {{ cnn_lstm }}
                                         cnn_2lstm = {{ cnn_2lstm }}
                                         ori = {{ movie_score }}
+                                        new_fast_text = {{ new_fast_text }}
+                                        new_cnn_lstm = {{ new_cnn_lstm }}
+                                        new_cnn_2lstm = {{ new_cnn_2lstm }}
+                                        new_ori = {{ new_movie_score }}
                                     </script>
                                     <div id="morris-bar-chart"></div>
                                 </div>
