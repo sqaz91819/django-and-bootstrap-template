@@ -66,26 +66,42 @@ class IndexView(generic.ListView):
                     labeled_score = [t['score'] for t in total]
 
             try:
-                old_stat_score = int((sum(labeled_score[:split]) / len(labeled_score[:split])) * 21)
-                new_stat_score = int((sum(labeled_score[split:]) / len(labeled_score[split:])) * 21)
                 st = datetime.now()
                 stat_score = int((sum(labeled_score) / len(labeled_score)) * 21)
                 stat_score_time = datetime.now() - st
-                old_articles = len(labeled_score[:split])
-                new_articles = len(labeled_score[split:])
                 articles = len(labeled_score)
-                old_fasttext_score = int(mean(predict_result['fasttext'][:split]) * 100)
-                new_fasttext_score = int(mean(predict_result['fasttext'][split:]) * 100)
                 fasttext_score = int(mean(predict_result['fasttext']) * 100)
                 fasttext_time = predict_result['fasttext_time']
-                old_cnn_lstm_score = int(mean(predict_result['cnn_lstm'][:split]) * 100)
-                new_cnn_lstm_score = int(mean(predict_result['cnn_lstm'][split:]) * 100)
                 cnn_lstm_score = int(mean(predict_result['cnn_lstm']) * 100)
                 cnn_lstm_time = predict_result['cnn_lstm_time']
-                old_cnn2lstm_score = int(mean(predict_result['cnn_2lstm'][:split]) * 100)
-                new_cnn2lstm_score = int(mean(predict_result['cnn_2lstm'][split:]) * 100)
                 cnn2lstm_score = int(mean(predict_result['cnn_2lstm']) * 100)
                 cnn2lstm_time = predict_result['cnn_2lstm_time']
+                
+                if old_articles:
+                    old_stat_score = int((sum(labeled_score[:split]) / len(labeled_score[:split])) * 21)
+                    old_articles = len(labeled_score[:split])
+                    old_fasttext_score = int(mean(predict_result['fasttext'][:split]) * 100)
+                    old_cnn_lstm_score = int(mean(predict_result['cnn_lstm'][:split]) * 100)
+                    old_cnn2lstm_score = int(mean(predict_result['cnn_2lstm'][:split]) * 100)
+                else:
+                    old_stat_score = 0
+                    old_articles = 0
+                    old_fasttext_score = 0
+                    old_cnn_lstm_score = 0
+                    old_cnn2lstm_score = 0
+
+                if new_articles:
+                    new_stat_score = int((sum(labeled_score[split:]) / len(labeled_score[split:])) * 21)
+                    new_articles = len(labeled_score[split:])
+                    new_fasttext_score = int(mean(predict_result['fasttext'][split:]) * 100)
+                    new_cnn_lstm_score = int(mean(predict_result['cnn_lstm'][split:]) * 100)
+                    new_cnn2lstm_score = int(mean(predict_result['cnn_2lstm'][split:]) * 100)
+                else:
+                    new_stat_score = 0
+                    new_articles = 0
+                    new_fasttext_score = 0
+                    new_cnn_lstm_score = 0
+                    new_cnn2lstm_score = 0
             except ZeroDivisionError:
                 return render(request, self.template_name, {
                     'form': form,
