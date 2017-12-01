@@ -76,7 +76,7 @@ class IndexView(generic.ListView):
                 cnn_lstm_time = predict_result['cnn_lstm_time']
                 cnn2lstm_score = int(mean(predict_result['cnn_2lstm']) * 100)
                 cnn2lstm_time = predict_result['cnn_2lstm_time']
-                
+
                 if old_articles:
                     old_stat_score = int((sum(labeled_score[:split]) / len(labeled_score[:split])) * 21)
                     old_articles = len(labeled_score[:split])
@@ -119,6 +119,7 @@ class IndexView(generic.ListView):
                 'old_cnn_lstm': old_cnn_lstm_score,
                 'old_cnn_2lstm': old_cnn2lstm_score,
 
+                'mean_dl_score': mean([fasttext_score, cnn_lstm_score, cnn2lstm_score]),
                 'movie_score': stat_score,
                 'total': articles,
                 'fast_text': fasttext_score,
