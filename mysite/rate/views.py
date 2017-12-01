@@ -119,7 +119,7 @@ class IndexView(generic.ListView):
                 'old_cnn_lstm': old_cnn_lstm_score,
                 'old_cnn_2lstm': old_cnn2lstm_score,
 
-                'mean_dl_score': mean([fasttext_score, cnn_lstm_score, cnn2lstm_score]),
+                'mean_dl_score': int(mean([fasttext_score, cnn_lstm_score, cnn2lstm_score])),
                 'movie_score': stat_score,
                 'total': articles,
                 'fast_text': fasttext_score,
