@@ -76,6 +76,7 @@ img {
   min-height: 1px;
   padding-right: 15px;
   padding-left: 15px;
+  padding-top: 50px;
 }
 
 @media (min-width: 768px) {
@@ -367,7 +368,6 @@ img {
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  margin-top: -15px;
   margin-right: -15px;
   margin-left: -15px;
 }
