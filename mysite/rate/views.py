@@ -30,6 +30,7 @@ class IndexView(generic.ListView):
             date_info = []
             example = []
             with mongodb.Mongodb(hash_check=False) as mgd:
+                form.query['search'] = ''.join(form.query['search'].split())
                 old_articles = mgd.search_title('articles', form.query['search'])
                 new_articles = mgd.search_title('new_articles', form.query['search'])
                 total = old_articles + new_articles
