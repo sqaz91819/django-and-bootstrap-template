@@ -52,6 +52,21 @@ class Mongodb:
         log(getframeinfo(currentframe()), 'Spent time : ', str(time() - start)[0:5], ' secs')
         return lst
 
+    def search_month(self, col_name: str, query: str) -> Articles:
+        """
+        with mongodb.Mongodb(hash_check=False) as db:
+            db.search_month('movie_by_month', '2017/06')
+        """
+        start = time()
+        docs = self.db[col_name].find({'month': {'$regex': ".*" + query + ".*"}})
+        if not docs:
+            log(getframeinfo(currentframe()), 'Collection does not exist or no doc match.')
+            return []
+        lst = list(docs)
+        log(getframeinfo(currentframe()), 'Query : ', query, ' total : ', str(len(lst)))
+        log(getframeinfo(currentframe()), 'Spent time : ', str(time() - start)[0:5], ' secs')
+        return lst[0]['articles']
+
     def search_label(self, col_name: str, query: str ="雷") -> Articles:
         start = time()
         docs = self.db[col_name].find({'label': {'$regex': ".*" + query + ".*"}})
