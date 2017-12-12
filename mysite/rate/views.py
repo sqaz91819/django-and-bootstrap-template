@@ -200,3 +200,10 @@ def score(request):
             return render(request, 'rate/forms.html')
 
         return render(request, 'rate/home.html', {'form': form, })
+
+
+def vote(request, month):
+    with mongodb.Mongodb(hash_check=False) as mgd:
+        lst = mgd.search_month('movie_by_month', '2017/' + month)
+
+    return render(request, 'rate/compare.html', {'test': lst})

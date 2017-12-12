@@ -24,63 +24,24 @@
     <div id="page-wrapper">
 
         <div class="row1 text-center">
-
+            {% for t in test %}
             <div class="col-lg-3-1 col-md-6-1 mb-4">
                 <div class="card">
-                    <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+                    <img class="card-img-top" src="data:image/jpeg;base64,{{ t.picture }}" alt="">
                     <div class="card-body">
-                        <h4 class="card-title">Title</h4>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse
-                            necessitatibus neque.</p>
+                        <h3 class="card-title">{{ t.中文片名 }}</h3>
+                        <p class="card-text">類型：{{ t.類型 }}<br>上映：{{ t.台灣上映日期 }}<br>導演：{{ t.導演 }}</p>
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Find Out More!</a>
+                        <form action="{% url 'rate:index' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{ t.中文片名 }}" name="search">
+                            <button class="btn btn-primary" type="submit">Find Out More!</button>
+                        </form>
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-3-1 col-md-6-1 mb-4">
-                <div class="card">
-                    <img class="card-img-top" src="http://placehold.it/500x325" alt="">
-                    <div class="card-body">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo magni
-                            sapiente, tempore debitis beatae culpa natus architecto.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Find Out More!</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3-1 col-md-6-1 mb-4">
-                <div class="card">
-                    <img class="card-img-top" src="http://placehold.it/500x325" alt="">
-                    <div class="card-body">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse
-                            necessitatibus neque.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Find Out More!</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3-1 col-md-6-1 mb-4">
-                <div class="card">
-                    <img class="card-img-top" src="http://placehold.it/500x325" alt="">
-                    <div class="card-body">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo magni
-                            sapiente, tempore debitis beatae culpa natus architecto.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Find Out More!</a>
-                    </div>
-                </div>
-            </div>
-
+            {% endfor %}
         </div>
 
     </div>
