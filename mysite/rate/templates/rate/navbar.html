@@ -16,13 +16,27 @@
                     <form action="{% url 'rate:index' %}" method="post">
                         {% csrf_token %}
                         <div class="input-group custom-search-form">
-                            <input type="text" class="form-control" placeholder="Search..." name="search">
                             <span class="input-group-btn">
                                         <button class="btn btn-default" type="submit">
                                             <i class="fa fa-search"></i>
                                         </button>
                                     </span>
                         </div>
+                        <div class="autocomplete-suggestions">
+
+                        </div>
+                        <script>
+                            new autoComplete({
+                            selector: '#search_bar',
+                                source: function(term, suggest){
+                                    term = term.toLowerCase();
+                                    var matches = [];
+                                    for (i=0; i<choices.length; i++)
+                                        if (~choices[i].toLowerCase().indexOf(term)) matches.push(choices[i]);
+                                    suggest(matches);
+                                }
+                            });
+                        </script>
                     </form>
                     <!-- /input-group -->
                 </li>
