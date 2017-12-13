@@ -30,13 +30,21 @@
                     <img class="card-img-top" src="data:image/jpeg;base64,{{ t.picture }}" alt="">
                     <div class="card-body">
                         <h3 class="card-title">{{ t.中文片名 }}</h3>
-                        <p class="card-text">類型：{{ t.類型 }}<br>上映：{{ t.台灣上映日期 }}<br>導演：{{ t.導演 }}<br>分數：{{ t.mean }}</p>
+                        {% if t.score.fasttext %}
+                        <p class="card-text">類型：{{ t.類型 }}<br>上映：{{ t.台灣上映日期 }}<br>導演：{{ t.導演 }}<br>分數：{{ t.score.fasttext }}</p>
+                        {% else %}
+                        <p class="card-text">類型：{{ t.類型 }}<br>上映：{{ t.台灣上映日期 }}<br>導演：{{ t.導演 }}<br>分數：NA</p>
+                        {% endif %}
                     </div>
                     <div class="card-footer">
                         <form action="{% url 'rate:index' %}" method="post">
                             {% csrf_token %}
                             <input type="hidden" value="{{ t.中文片名 }}" name="search">
+                            {% if t.score.fasttext %}
                             <button class="btn btn-primary" type="submit">Find Out More!</button>
+                            {% else %}
+                            <button class="btn btn-primary" type="submit" disabled>Find Out More!</button>
+                            {% endif %}
                         </form>
                     </div>
                 </div>
