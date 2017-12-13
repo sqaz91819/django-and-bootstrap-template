@@ -30,7 +30,7 @@
                     <img class="card-img-top" src="data:image/jpeg;base64,{{ t.picture }}" alt="">
                     <div class="card-body">
                         <h3 class="card-title">{{ t.中文片名 }}</h3>
-                        <p class="card-text">類型：{{ t.類型 }}<br>上映：{{ t.台灣上映日期 }}<br>導演：{{ t.導演 }}</p>
+                        <p class="card-text">類型：{{ t.類型 }}<br>上映：{{ t.台灣上映日期 }}<br>導演：{{ t.導演 }}<br>分數：{{ t.mean }}</p>
                     </div>
                     <div class="card-footer">
                         <form action="{% url 'rate:index' %}" method="post">
