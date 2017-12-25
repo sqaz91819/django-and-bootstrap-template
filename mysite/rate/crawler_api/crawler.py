@@ -128,7 +128,7 @@ def article_info(url: str) -> Union[Dict, None]:
         "label": label,
         "title": title,
         "url": url,
-        "$date": date,
+        "date": date,
         "content": __line_con(content),
         "modified": False
     }
@@ -147,7 +147,7 @@ def json_read(filename: str):
         return d
 
 
-def download(start=1, end=1) -> None:
+def download(start=1, end=1) -> [None, list]:
     # page start to end
     # get article and download to json file
     # {"article id": {"article content": content, "article title": title, ...}}
@@ -165,6 +165,7 @@ def download(start=1, end=1) -> None:
         sleep(0.2)
     json_write(str(start) + str(end) + ".txt", articles)
     write_log(end)
+    return articles
 
 
 # movie board search : off-line version
